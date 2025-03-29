@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Girlfriend?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #ffccd5;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #ff4d6d;
+            margin-top: 100px;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 10px;
+            transition: 0.3s;
+        }
+        .yes {
+            background-color: #ff4d6d;
+            color: white;
+        }
+        .yes:hover {
+            background-color: #d6336c;
+        }
+        .no {
+            background-color: white;
+            color: #ff4d6d;
+            border: 2px solid #ff4d6d;
+        }
+        .no:hover {
+            background-color: #ff4d6d;
+            color: white;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        .popup button {
+            margin-top: 10px;
+            background-color: #ff4d6d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        @keyframes floatingHearts {
+            0% { transform: translateY(100vh) scale(1); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
+        }
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatingHearts 5s linear infinite;
+        }
+        @keyframes floatingAnimation {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-50vh) scale(0.5); opacity: 0; }
+        }
+        .floating {
+            position: absolute;
+            animation: floatingAnimation 2s linear forwards;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Will You Be My Girlfriend? ❤️</h1>
+    <div class="buttons">
+        <button class="yes" onclick="showPopup('Yay! I love you! ❤️')">Yes</button>
+        <button class="no" onclick="showPopup('Oh no! 😭')">No</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup" aria-live="assertive">
+        <p id="popup-message">Will you be my girlfriend? ❤️</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+    <script>
+        function showPopup(message) {
+            document.getElementById('popup-message').innerText = message;
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+
+            if (message.includes("Yay!")) {
+                generateHearts();
+            } else {
+                generateCryingFaces();
+            }
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function createFloatingElement(content, colors) {
+            const element = document.createElement('div');
+            element.classList.add('floating');
+            element.innerHTML = content;
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.top = Math.random() * 100 + 'vh';
+            element.style.fontSize = Math.random() * 2 + 1 + 'rem';
+            element.style.color = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(element);
+            
+            setTimeout(() => {
+                element.remove();
+            }, 3000);
+        }
+
+        function generateHearts() {
+            const colors = ['#ff4d6d', '#ff99ac', '#ff3366', '#ff6699', '#ff1a75'];
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => createFloatingElement('❤️', colors), i * 100);
+            }
+        }
+
+        function generateCryingFaces() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => createFloatingElement('😢', ['#000']), i * 100);
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            const colors = ['#ff4d6d', '#ff99ac', '#ff3366', '#ff6699', '#ff1a75'];
+            heart.innerHTML = '❤️';
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(heart);
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            setTimeout(() => heart.remove(), 5000);
+        }
+
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
